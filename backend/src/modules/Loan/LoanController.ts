@@ -1,6 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import LoanModel from "./LoanModel";
 
+interface Iinstallments {
+  installment?: number;
+  value?: string;
+  fees?: string
+  installmentValue?: number
+}
+
 export const createLoan = async(req: Request, res: Response, next: NextFunction) => {
   const loanValue = req.body.loanValue 
   const installments = req.body.installments
@@ -49,40 +56,73 @@ export const createLoan = async(req: Request, res: Response, next: NextFunction)
 
 export const simulateLoan = async(req: Request, res: Response, next: NextFunction) => {
   const loanValue = req.body.loanValue 
-  const installmentValue = req.body.installmentValue
+  let installmentValue = req.body.installmentValue
   const uf = req.body.uf
   let tax = 0
 
   if (uf == 'MG') {
-   tax = 1.01
+   tax = 0.01
   } else if (uf == 'SP') {
-   tax = 1.008
+   tax = 0.08
   } else if (uf == 'RJ') {
-   tax = 1.009
+   tax = 0.09
   } else {
-   tax = 1.0111
+   tax = 0.011
   }
 
-  const finalValue = loanValue * tax
+  let fee = loanValue * tax
+  const finalValue = loanValue + fee
+  const installments = Math.ceil(finalValue / installmentValue)
+  let totalToPay = finalValue
+  let totalFees = fee
 
+  
 
-  const installments = finalValue / installmentValue
+  let installmentsToPay:Iinstallments[] = []
+  let ActualInstallment = 1
+
+  while (ActualInstallment <= installments) {
+  
+    installmentsToPay.push({
+      installment: ActualInstallment,
+      value: totalToPay.toFixed(2),
+      fees: fee.toFixed(2),
+      installmentValue: installmentValue
+    })
+
+    if (installmentValue >= totalToPay) {
+      totalToPay = totalToPay - totalToPay
+      
+    } else {
+      totalToPay = totalToPay - installmentValue
+    }
+    
+    
+    fee = totalToPay * tax
+    totalToPay = totalToPay + fee
+    totalFees = totalFees + fee
+    ActualInstallment++
+    
+  }
+
 
   try {
     res.status(200).json({
-      status: "Loan created with Success",
+      status: "Loan simulated with success",
       data: {
         uf: uf,
         loanValue: loanValue,
         finalValue: finalValue,
-        installmentValue: installmentValue,
+        installmentValue: 15000,
         installments: installments,
-        tax: tax
+        totalFees: totalFees.toFixed(2),
+        tax: tax,
+        installmentsToPay: installmentsToPay
       }
     })
   } catch(err) {
     res.status(500).json({
-      status: "Failed to create a new loan",
+      status: "Failed to simulate a new loan",
       message: err
     })
   }
