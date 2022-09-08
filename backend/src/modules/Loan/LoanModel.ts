@@ -1,19 +1,26 @@
 import mongoose, { Schema, Model, Document } from 'mongoose'
-
+interface installmentToPay {
+  fees: string
+  installment: number
+  installmentValue: number
+  value: string
+}
 export interface ILoan extends Document {
-  email: string;
+  
   cpf: string;
   birthDate: Date;
-  totalValue: number;
-  installmentValue: number
+  uf: string;
+  loanValue: number;
+  finalValue: number;
+  installmentValue: number;
+  installments: number;
+  totalFees: string;
+  tax: number;
+  installmentsToPay: installmentToPay[]
 }
 
 const LoanSchema = new Schema<ILoan>(
   {
-    email: {
-      type: String,
-      required: true
-    }, 
     cpf: {
       type: String,
       required: true
@@ -22,12 +29,36 @@ const LoanSchema = new Schema<ILoan>(
       type: Date,
       required: true
     },
-    totalValue: {
+    uf: {
+      type: String,
+      required: true
+    },
+    loanValue: {
+      type: Number,
+      required: true
+    },
+    finalValue:{
       type: Number,
       required: true
     },
     installmentValue: {
       type: Number,
+      required: true
+    },
+    installments: {
+      type: Number,
+      required: true
+    },
+    totalFees: {
+      type: String,
+      required: true
+    },
+    tax: {
+      type: Number,
+      required: true
+    },
+    installmentsToPay: {
+      type : [] ,
       required: true
     },
   }, 
