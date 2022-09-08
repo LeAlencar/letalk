@@ -1,3 +1,4 @@
+import { api } from '../../api/api'
 import { Content,  ContentBlock,  ContentGrid,  InfoContainer, InfoText, SubmitButton, Table, TableLine } from './style'
 
 interface installmentToPay {
@@ -9,6 +10,8 @@ interface installmentToPay {
 interface LoanInfoProps {
   loan?: {
     data?: {
+      birthDate?: string
+      cpf?: string
       finalValue?: number
       installmentValue?: number
       installments?: number
@@ -27,8 +30,22 @@ export function LoanInfo({ loan }: LoanInfoProps) {
   let tax = 0
   if (loan?.data?.tax !== undefined) {
     tax = loan?.data?.tax * 100
-    
   }
+
+  async function handleSubmit() {
+    const response = await api.post('/loans/create', {
+      uf: loan?.data?.uf,
+      cpf: loan?.data?.cpf,
+      birthDate: loan?.data?.birthDate,
+      loanValue: loan?.data?.loanValue,
+      installmentValue: loan?.data?.installmentValue
+
+    })
+
+    return response.data
+  }
+
+
   
   return (
     <>
@@ -100,7 +117,7 @@ export function LoanInfo({ loan }: LoanInfoProps) {
             })}
           </tbody>
         </Table>  
-        <SubmitButton>EFETIVAR O EMPRÉSTIMO</SubmitButton>
+        <SubmitButton onSubmit={handleSubmit}>EFETIVAR O EMPRÉSTIMO</SubmitButton>
       </Content>
       
     </InfoContainer>

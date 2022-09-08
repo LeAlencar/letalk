@@ -159,6 +159,7 @@ export const simulateLoan = async(req: Request, res: Response, next: NextFunctio
     res.status(200).json({
       status: "Loan simulated with success",
       data: {
+        cpf: req.body.cpf,
         uf: uf,
         loanValue: loanValue,
         finalValue: loanValue + Number(totalFees.toFixed(2)),

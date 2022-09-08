@@ -1,7 +1,7 @@
 import { Header } from './components/Header';
 import { LoanInfo } from './components/LoanInfo';
 import { GlobalStyle } from './styles/global';
-import { Content, FormContainer, FormContent } from './components/Form/style'
+import { Content, FormContainer, FormContent } from './styles/FormStyle'
 import { useFormik } from 'formik';
 import { api } from './api/api';
 import { useState } from 'react';
@@ -15,6 +15,8 @@ interface installmentToPay {
 }
 interface LoanProps {
   data?: {
+    cpf?: string
+    birthDate?: string
     finalValue?: number
     installmentValue?: number
     installments?: number
