@@ -42,7 +42,7 @@ export function LoanInfo({ loan }: LoanInfoProps) {
 
     })
 
-    return response.data
+    console.log(response.data)
   }
 
 
@@ -117,7 +117,7 @@ export function LoanInfo({ loan }: LoanInfoProps) {
             })}
           </tbody>
         </Table>  
-        <SubmitButton onSubmit={handleSubmit}>EFETIVAR O EMPRÉSTIMO</SubmitButton>
+        <SubmitButton onClick={() => handleSubmit()}>EFETIVAR O EMPRÉSTIMO</SubmitButton>
       </Content>
       
     </InfoContainer>
