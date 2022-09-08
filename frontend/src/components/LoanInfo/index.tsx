@@ -1,7 +1,3 @@
-
-import { useFormik } from 'formik'
-import { NumberLiteralType } from 'typescript'
-import { api } from '../../api/api'
 import { Content,  ContentBlock,  ContentGrid,  InfoContainer, InfoText, SubmitButton, Table, TableLine } from './style'
 
 interface installmentToPay {
