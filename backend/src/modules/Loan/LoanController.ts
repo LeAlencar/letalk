@@ -63,9 +63,9 @@ export const simulateLoan = async(req: Request, res: Response, next: NextFunctio
   if (uf == 'MG') {
    tax = 0.01
   } else if (uf == 'SP') {
-   tax = 0.08
+   tax = 0.008
   } else if (uf == 'RJ') {
-   tax = 0.09
+   tax = 0.009
   } else {
    tax = 0.011
   }
@@ -112,7 +112,7 @@ export const simulateLoan = async(req: Request, res: Response, next: NextFunctio
       data: {
         uf: uf,
         loanValue: loanValue,
-        finalValue: finalValue,
+        finalValue: loanValue + Number(totalFees.toFixed(2)),
         installmentValue: 15000,
         installments: installments,
         totalFees: totalFees.toFixed(2),
