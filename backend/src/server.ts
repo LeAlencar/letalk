@@ -9,7 +9,9 @@ const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-
+app.get('/', function(req, res){
+  res.send("Hello World");
+});
 
 try {
   connectDB()
