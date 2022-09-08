@@ -4,6 +4,6 @@ import { simulateLoan, createLoan } from "./LoanController";
 const LoanRouter = Router()
 
 LoanRouter.post('/create', createLoan)
-LoanRouter.get('/', simulateLoan)
+LoanRouter.post('/', simulateLoan)
 
 export default LoanRouter

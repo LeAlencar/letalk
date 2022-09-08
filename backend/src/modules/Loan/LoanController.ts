@@ -55,8 +55,8 @@ export const createLoan = async(req: Request, res: Response, next: NextFunction)
 }
 
 export const simulateLoan = async(req: Request, res: Response, next: NextFunction) => {
-  const loanValue = req.body.loanValue 
-  let installmentValue = req.body.installmentValue
+  const loanValue = Number(req.body.loanValue)
+  let installmentValue = Number(req.body.installmentValue)
   const uf = req.body.uf
   let tax = 0
 
