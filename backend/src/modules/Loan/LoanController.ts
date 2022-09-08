@@ -97,7 +97,7 @@ export const createLoan = async(req: Request, res: Response, next: NextFunction)
     })
   } catch(err) {
     res.status(500).json({
-      status: "Failed to simulate a new loan",
+      status: "Failed to create a new loan",
       message: err
     })
   }
@@ -160,6 +160,7 @@ export const simulateLoan = async(req: Request, res: Response, next: NextFunctio
       status: "Loan simulated with success",
       data: {
         cpf: req.body.cpf,
+        birthDate: req.body.birthDate,
         uf: uf,
         loanValue: loanValue,
         finalValue: loanValue + Number(totalFees.toFixed(2)),
